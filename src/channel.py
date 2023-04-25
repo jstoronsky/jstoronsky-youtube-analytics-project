@@ -24,41 +24,66 @@ class Channel:
 
     @property
     def title(self):
+        """
+        получаем название канала
+        """
         title_ = [tt["snippet"]["title"] for tt in list(self.print_info()[0].values())[3]]
         return title_[0]
 
     @property
     def description(self):
+        """
+        описание канала
+        """
         description = [dsc["snippet"]["description"] for dsc in list(self.print_info()[0].values())[3]]
         return description[0]
 
     @property
     def url(self):
+        """
+        ссылка на канал
+        """
         return f'https://www.youtube.com/channel/{self.__channel_id}'
 
     @property
     def subscribers_count(self):
+        """
+        количество подписчиков
+        """
         subscribers_count = [sbc["statistics"]["subscriberCount"] for sbc in list(self.print_info()[0].values())[3]]
         return subscribers_count[0]
 
     @property
     def video_count(self):
+        """
+        количество видео
+        """
         video_count = [vd["statistics"]["videoCount"] for vd in list(self.print_info()[0].values())[3]]
         return video_count[0]
 
     @property
     def overall_views_count(self):
+        """
+
+        общее количество просмотров
+        """
         views_count = [vd["statistics"]["viewCount"] for vd in list(self.print_info()[0].values())[3]]
         return views_count[0]
 
     @classmethod
     def get_service(cls):
+        """
+        возвращает объект для работы с YouTube API
+        """
         return cls.youtube
 
     def to_json(self, jsn_file):
-        python_list = dict(id=self.channel_id, title=self.title, description=self.description, url=self.url,
+        """
+        сохраняет в файл значения атрибутов экземпляра Channel
+        """
+        python_dict = dict(id=self.channel_id, title=self.title, description=self.description, url=self.url,
                            subscribers_number=self.subscribers_count, videos=self.video_count,
                            overall_views=self.overall_views_count)
-        jsn_list = json.dumps(python_list, indent=3, ensure_ascii=False)
+        jsn_list = json.dumps(python_dict, indent=3, ensure_ascii=False)
         with open(jsn_file, "wt", encoding="utf-8") as file:
             file.write(jsn_list)
