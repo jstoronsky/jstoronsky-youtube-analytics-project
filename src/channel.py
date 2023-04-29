@@ -87,3 +87,24 @@ class Channel:
         jsn_list = json.dumps(python_dict, indent=3, ensure_ascii=False)
         with open(jsn_file, "wt", encoding="utf-8") as file:
             file.write(jsn_list)
+
+    def __add__(self, other):
+        return int(self.subscribers_count) + int(other.subscribers_count)
+
+    def __sub__(self, other):
+        return int(self.subscribers_count) - int(other.subscribers_count)
+
+    def __lt__(self, other):
+        return int(self.subscribers_count) < int(other.subscribers_count)
+
+    def __le__(self, other):
+        return int(self.subscribers_count) <= int(other.subscribers_count)
+
+    def __gt__(self, other):
+        return int(self.subscribers_count) > int(other.subscribers_count)
+
+    def __ge__(self, other):
+        return int(self.subscribers_count) >= int(other.subscribers_count)
+
+    def __str__(self):
+        return f"{self.title} ({self.url})"
