@@ -4,16 +4,22 @@ from googleapiclient.discovery import build
 
 
 class Channel:
-    """Класс для ютуб-канала"""
+    """
+    Класс для ютуб-канала
+    """
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, channel_id: str) -> None:
-        """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
+        """
+        Через экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API.
+        """
         self.__channel_id = channel_id
 
     def print_info(self):
-        """Выводит в консоль информацию о канале."""
+        """
+        Выводит в консоль информацию о канале.
+        """
         channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         eventual_print = json.dumps(channel, indent=2, ensure_ascii=False)
         return channel, eventual_print
@@ -89,27 +95,39 @@ class Channel:
             file.write(jsn_list)
 
     def __add__(self, other):
-        "Сложение"
+        """
+        метод сложения
+        """
         return int(self.subscribers_count) + int(other.subscribers_count)
 
     def __sub__(self, other):
-        "Вычитание"
+        """
+        метод вычитания
+        """
         return int(self.subscribers_count) - int(other.subscribers_count)
 
     def __lt__(self, other):
-        "Меньше"
+        """
+        метод если self меньше other
+        """
         return int(self.subscribers_count) < int(other.subscribers_count)
 
     def __le__(self, other):
-        "Меньше или равно"
+        """
+        метод если self меньше или равно other
+        """
         return int(self.subscribers_count) <= int(other.subscribers_count)
 
     def __gt__(self, other):
-        "Больше"
+        """
+        метод если self больше other
+        """
         return int(self.subscribers_count) > int(other.subscribers_count)
 
     def __ge__(self, other):
-        "Больше или равно"
+        """
+        метод если self больше или равно other
+        """
         return int(self.subscribers_count) >= int(other.subscribers_count)
 
     def __str__(self):
