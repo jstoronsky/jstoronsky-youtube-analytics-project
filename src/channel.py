@@ -20,7 +20,7 @@ class Channel:
         """
         Выводит в консоль информацию о канале.
         """
-        channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
+        channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()["items"]
         eventual_print = json.dumps(channel, indent=2, ensure_ascii=False)
         return channel, eventual_print
 
@@ -33,7 +33,7 @@ class Channel:
         """
         получаем название канала
         """
-        title_ = [tt["snippet"]["title"] for tt in list(self.print_info()[0].values())[3]]
+        title_ = [tt["snippet"]["title"] for tt in self.print_info()[0]]
         return title_[0]
 
     @property
@@ -41,7 +41,7 @@ class Channel:
         """
         описание канала
         """
-        description = [dsc["snippet"]["description"] for dsc in list(self.print_info()[0].values())[3]]
+        description = [dsc["snippet"]["description"] for dsc in self.print_info()[0]]
         return description[0]
 
     @property
@@ -56,7 +56,7 @@ class Channel:
         """
         количество подписчиков
         """
-        subscribers_count = [sbc["statistics"]["subscriberCount"] for sbc in list(self.print_info()[0].values())[3]]
+        subscribers_count = [sbc["statistics"]["subscriberCount"] for sbc in self.print_info()[0]]
         return subscribers_count[0]
 
     @property
@@ -64,7 +64,7 @@ class Channel:
         """
         количество видео
         """
-        video_count = [vd["statistics"]["videoCount"] for vd in list(self.print_info()[0].values())[3]]
+        video_count = [vd["statistics"]["videoCount"] for vd in self.print_info()[0]]
         return video_count[0]
 
     @property
@@ -73,7 +73,7 @@ class Channel:
 
         общее количество просмотров
         """
-        views_count = [vd["statistics"]["viewCount"] for vd in list(self.print_info()[0].values())[3]]
+        views_count = [vd["statistics"]["viewCount"] for vd in self.print_info()[0]]
         return views_count[0]
 
     @classmethod

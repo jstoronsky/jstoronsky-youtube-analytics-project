@@ -61,7 +61,3 @@ class PlayList:
         likes_number = [int(like["statistics"]["likeCount"]) for like in video_info["items"]]
         best_video_id = video_ids_list[likes_number.index(max(likes_number))]
         return f'https://youtu.be/{best_video_id}'
-
-
-pl = PlayList('PLguYHBi01DWr4bRWc4uaguASmo7lW4GCb')
-print(pl.show_best_video())
