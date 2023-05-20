@@ -1,6 +1,7 @@
 import json
 import os
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 
 class Video:
@@ -17,7 +18,7 @@ class Video:
         """
         Выводит в консоль информацию о видосе.
         """
-        video_ = self.youtube.videos().list(id=self.__video_id, part='snippet,statistics').execute()
+        video_ = self.youtube.videos().list(id=self.__video_id, part='snippet,statistics').execute()["items"]
         eventual_print = json.dumps(video_, indent=2, ensure_ascii=False)
         return video_, eventual_print
 
@@ -33,8 +34,15 @@ class Video:
         """
         получаем название видео
         """
-        title = [tt["snippet"]["title"] for tt in list(self.print_info()[0].values())[2]]
-        return title[0]
+        title = [tt["snippet"]["title"] for tt in self.print_info()[0]]
+        try:
+            title[0]
+        except HttpError:
+            return None
+        except IndexError:
+            return None
+        else:
+            return title[0]
 
     @property
     def video_url(self):
@@ -48,18 +56,34 @@ class Video:
         """
         количество просмотров у видео
         """
-        views_count = [vd["statistics"]["viewCount"] for vd in list(self.print_info()[0].values())[2]]
-        return views_count[0]
+        views_count = [vd["statistics"]["viewCount"] for vd in self.print_info()[0]]
+        try:
+            views_count[0]
+        except HttpError:
+            return None
+        except IndexError:
+            return None
+        else:
+            return views_count[0]
 
     @property
     def video_likes_count(self):
         """
         количество лайков у видео
         """
-        likes_count = [lk["statistics"]["likeCount"] for lk in list(self.print_info()[0].values())[2]]
-        return likes_count[0]
+        likes_count = [lk["statistics"]["likeCount"] for lk in self.print_info()[0]]
+        try:
+            likes_count[0]
+        except HttpError:
+            return None
+        except IndexError:
+            return None
+        else:
+            return likes_count[0]
 
     def __str__(self):
+        if self.video_title is None:
+            return "None"
         return self.video_title
 
 
